@@ -22,6 +22,37 @@ function MyApp({ Component, pageProps }) {
           margin: 0;
           list-style-type: none;
         }
+
+        :global(form) {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          text-align: center;
+        }
+
+        :global(input) {
+          margin-top: 20px;
+          padding: 10px;
+          width: 100%;
+          font-size: 20px;
+          box-sizing: border-box;
+        }
+
+        :global(button) {
+          padding: 10px;
+          margin-top: 20px;
+          margin-bottom: 20px;
+          cursor: pointer;
+          background-color: blue;
+          color: #fff;
+          font-size: 20px;
+        }
+
+        :global(.error) {
+          color: red;
+          padding: 10px;
+          font-size: 14px;
+        }
       `}</style>
     </>
   );

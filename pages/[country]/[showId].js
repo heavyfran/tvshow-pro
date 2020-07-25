@@ -4,6 +4,7 @@ import parse from 'html-react-parser';
 // import CustomError from '../_error';
 
 import Cast from '../../components/cast';
+import { withAuthorization } from '../../utils/withAuthorization';
 
 const ShowDetails = ({ show = {}, statusCode }) => {
   const { name, image, summary, _embedded } = show;
@@ -57,4 +58,4 @@ ShowDetails.getInitialProps = async (context) => {
   }
 };
 
-export default ShowDetails;
+export default withAuthorization(ShowDetails);

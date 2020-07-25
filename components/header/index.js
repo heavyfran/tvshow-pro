@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import cookies from 'nookies';
+import Link from 'next/link';
+import { isAuthenticated } from '../../utils/withAuthorization';
 
 const countries = [
   { label: 'us', name: 'United States' },
@@ -28,11 +30,17 @@ const Header = () => {
     ));
   };
 
+  const handleSignout = () => {
+    cookies.destroy(null, 'token');
+  };
+
   useEffect(() => {
-    cookies.set(null, 'defaultCountry', selectedCountry, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: '/',
-    });
+    if (selectedCountry) {
+      cookies.set(null, 'defaultCountry', selectedCountry, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
+    }
   }, [selectedCountry]);
 
   return (
@@ -41,12 +49,26 @@ const Header = () => {
         {renderCountries()}
       </select>
 
+      {isAuthenticated() && (
+        <Link href='/[country]' as={`/${selectedCountry}`}>
+          <a onClick={handleSignout}>Sign Out</a>
+        </Link>
+      )}
+
       <style jsx>{`
-        padding: 20px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        margin-bottom: 10px;
+        .header {
+          padding: 20px;
+          background-color: #333;
+          color: #fff;
+          text-align: center;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: space-between;
+        }
+
+        .header > :global(a) {
+          color: #fff;
+        }
       `}</style>
     </div>
   );
